@@ -2,7 +2,7 @@ library(plyr)
 library(class)
 library(readr)
 library(randomForest)
-set.seed(0)
+set.seed(1234)
 #dataLoaded <- read.csv("~/mow/crime/train.csv", na.strings=c("", "NA", "NULL"))
 dataLoaded <- read_csv("~/mow/crime/train.csv")  # 42k rows in general
 
@@ -57,8 +57,12 @@ head(dataLoaded)
 numTrain <- 600000 #10k rows for training-> 32k rows to predict
 numTrees <- 25
 
-rowsTrain <- sample(1:nrow(dataLoaded), numTrain) 
-rowsTest <- sample(numTrain:nrow(dataLoaded), nrow(dataLoaded)-numTrain)
+
+rowSelector<-sample(2, nrow(dataLoaded), replace=TRUE, prob=c(0.6, 0.4))
+rowsTrain <- sample(1:nrow(dataLoaded[rowSelector == 1,]), length(rowSelector[rowSelector == 1])) 
+rowsTest <- sample(1:nrow(dataLoaded[rowSelector == 2,]), length(rowSelector[rowSelector == 2])) 
+#rowsTrain <- sample(1:nrow(dataLoaded), numTrain) 
+#rowsTest <- sample(numTrain:nrow(dataLoaded), nrow(dataLoaded)-numTrain)
 
 length(rowsTrain)
 length(rowsTest)
