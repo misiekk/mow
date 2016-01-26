@@ -1,6 +1,9 @@
 library(randomForest)
 library(plyr)
 library(class)
+library(klaR)
+library(readr)
+set.seed(1234)
 
 ind <- sample(2, nrow(iris), replace=TRUE, prob=c(0.7, 0.3))
 trainData <- iris[ind==1,]
@@ -14,7 +17,7 @@ numNeighbours = 13
 
 
 ##### NAIVE BAYES
-model <- NaiveBayes(trainData,trainLabels, fl=1)
+model <- NaiveBayes(trainData,trainLabels, fL=1)
 startTime <- Sys.time()
 predictions <- predict(model, testData)
 endTime <- Sys.time()
